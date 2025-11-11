@@ -4,6 +4,8 @@ from database import Base, engine, SessionLocal, get_db
 import pytest
 from sqlalchemy.orm import sessionmaker
 import os
+import numpy as np
+import cv2
 
 # Use the actual database for testing
 TestingSessionLocal = SessionLocal
@@ -28,19 +30,15 @@ def client_fixture():
     Base.metadata.drop_all(bind=engine)
 
 def test_predict_emotion_no_face_detected(client):
-    # Create a dummy image file that won't have a face
-    with open("test_no_face.jpg", "wb") as f:
-        f.write(b"dummy image data") # This will not be a valid image but good enough to test no face detection
+    # Create a dummy black image that won't have a face
+    dummy_image = np.zeros((100, 100, 3), dtype=np.uint8)
+    _, img_encoded = cv2.imencode(".jpg", dummy_image)
+    img_bytes = img_encoded.tobytes()
 
-    with open("test_no_face.jpg", "rb") as f:
-        response = client.post("/predict_emotion", files={"file": ("test_no_face.jpg", f, "image/jpeg")})
+    response = client.post("/predict_emotion", files={"file": ("test_no_face.jpg", img_bytes, "image/jpeg")})
     
     assert response.status_code == 200
     assert response.json() == {"error": "No face detected"}
-
-    # Clean up dummy file
-    import os
-    os.remove("test_no_face.jpg")
 
 
 def test_get_history_empty(client):
