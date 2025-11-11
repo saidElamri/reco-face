@@ -3,12 +3,15 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import os
+from dotenv import load_dotenv
 
-DB_USERNAME = os.environ.get("DB_USERNAME", "myuser")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "04151995")
-DB_HOST     = os.environ.get("DB_HOST", "localhost")
-DB_PORT     = os.environ.get("DB_PORT", "5432")
-DB_NAME     = os.environ.get("DB_NAME", "emotion_reco")
+load_dotenv()
+
+DB_USERNAME = os.getenv("DB_USERNAME", "myuser")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "04151995")
+DB_HOST     = os.getenv("DB_HOST", "localhost")
+DB_PORT     = os.getenv("DB_PORT", "5432")
+DB_NAME     = os.getenv("DB_NAME", "emotion_reco")
 
 DATABASE_URL = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
