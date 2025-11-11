@@ -1,3 +1,5 @@
+httpx
+python-multipart
 tensorflow
 opencv-python-headless
 numpy
