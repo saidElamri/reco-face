@@ -29,6 +29,11 @@ jobs:
         pip install -r requirements.txt
         pip install httpx
     
+    - name: Show opencv-python-headless dependencies
+      run: |
+        pip show opencv-python-headless
+        pip show opencv-python-headless | grep Requires
+
     - name: Test with pytest
       run: |
         pip install pytest
