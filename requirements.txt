@@ -3,3 +3,7 @@ opencv-python
 numpy
 matplotlib
 pytest
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
