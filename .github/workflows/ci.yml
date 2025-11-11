@@ -35,6 +35,8 @@ jobs:
         pip show opencv-python-headless | grep Requires
 
     - name: Test with pytest
+      env:
+        PYTHONPATH: .
       run: |
         pip install pytest
         pytest
