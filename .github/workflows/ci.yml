@@ -9,7 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
     steps:
     - uses: actions/checkout@v3
 
@@ -37,6 +45,11 @@ jobs:
     - name: Test with pytest
       env:
         PYTHONPATH: .
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_USERNAME: myuser
+        DB_PASSWORD: mypassword
+        DB_NAME: testdb
       run: |
         pip install pytest
         pytest
